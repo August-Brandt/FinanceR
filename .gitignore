@@ -1,6 +1,7 @@
 # Custom ignores
 data/
 *.csv
+Requirements.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
