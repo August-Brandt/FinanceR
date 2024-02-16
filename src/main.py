@@ -1,6 +1,6 @@
 import csv
 from transaction import Transaction
-from datetime import datetime
+from datetime import date
 
 # Returns a list of rows from the passed .csv file 
 def ReadCsv(filepath: str) -> list:
@@ -14,8 +14,17 @@ def ReadCsv(filepath: str) -> list:
 
 
 def CreateTransaction(row: list) -> Transaction:
-    return Transaction(float(row[4].replace(",", ".")), row[11], row[12], datetime.strptime(row[0], '%d.%m.%Y'), row[2])
+    return Transaction(float(row[4].replace(",", ".")), row[11], row[12], date.strptime(row[0], '%d.%m.%Y'), row[2])
 
+def CreateDataSet(transactions: list) -> dict:
+    dataSet = {}
+    for transaction in transactions:
+        if transaction.type not in dataSet.keys():
+            dataSet[transaction] = 0
+        
+        dataSet[transaction] = dataSet[transaction] + transaction.amount
+    
+    return dataSet
 
 def main():
     filepath = input("Path to the .csv file > ")
