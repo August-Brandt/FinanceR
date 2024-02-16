@@ -1,6 +1,6 @@
 
 class GraphMaker:
-    def DrawBarChart(self, data: dict):
+    def DrawBarChart(self, data: dict) -> None:
         datasum = sum(data.values())
         for dataname, datapoint in zip(data.keys(), data.values()):
             print(dataname + "\t" + "#"*int(datapoint/datasum*50))
