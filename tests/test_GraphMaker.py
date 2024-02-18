@@ -19,10 +19,20 @@ def test_DrawNumberDataPoints(test_input, expected, capture_stdout):
         "a\t" + "#"*14 + "\nb\t" + "#"*29 + "\nc\t" + "#"*5 + "\n"),
     ({"aa": 40, "bb": 30, "cc": 67},
         "aa\t" + "#"*14 + "\nbb\t" + "#"*10 + "\ncc\t" + "#"*24 + "\n"),
-    ({"Food": 5500, "House": 7435, "Transport": 2300, "Other": 4203},
-        "Food\t" + "#"*14 + "\nHouse\t" + "#"*19 + "\nTransport\t" + "#"*5 + "\nOther\t" + "#"*10 + "\n")
 ])
 def test_DrawStringDataPoints(test_input, expected, capture_stdout):
     grapher = GraphMaker()
     grapher.DrawBarChart(test_input)
     assert capture_stdout["stdout"] == expected
+
+def test_DrawGraphWithTwoTabs(capture_stdout):
+    data = {"Food": 5500, "House": 7435, "Transport": 2300, "Other": 4203}
+    grapher = GraphMaker()
+    grapher.DrawBarChart(data)
+    assert capture_stdout["stdout"] == "Food\t\t" + "#"*14 + "\nHouse\t\t" + "#"*19 + "\nTransport\t" + "#"*5 + "\nOther\t\t" + "#"*10 + "\n"
+
+def test_DrawGraphWithTitleLongerThan14(capture_stdout):
+    data = {"Food": 5500, "House": 7435, "Transportabcdef": 2300, "Other": 4203}
+    grapher = GraphMaker()
+    grapher.DrawBarChart(data)
+    assert capture_stdout["stdout"] == "Food\t\t" + "#"*14 + "\nHouse\t\t" + "#"*19 + "\nTransporta...\t" + "#"*5 + "\nOther\t\t" + "#"*10 + "\n"
