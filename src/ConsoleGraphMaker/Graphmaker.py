@@ -1,9 +1,16 @@
+import math
 
 class GraphMaker:
     def DrawBarChart(self, data: dict) -> None:
+        longestTitle = len(max(data.keys(), key=len))
         datasum = sum(data.values())
         for dataname, datapoint in zip(data.keys(), data.values()):
-            print(dataname + "\t" + "#"*int(datapoint/datasum*50))
+            if len(dataname) > 14:
+                print(dataname[:10] + "..." + "\t" + "#" * int(datapoint/datasum*50))
+            elif len(dataname) > 7:
+                print(dataname + "\t" + "#" * int(datapoint/datasum*50))
+            else:
+                print(dataname + "\t"*min(math.ceil(longestTitle/7), 2) + "#"*int(datapoint/datasum*50))
 
 
 if __name__ == "__main__":
