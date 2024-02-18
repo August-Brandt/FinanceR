@@ -8,5 +8,6 @@ class GraphMaker:
 
 if __name__ == "__main__":
     graphMaker = GraphMaker()
-    data = {"1": 5, "2": 10, "3": 2, "4": 5, "5": 14, "6": 7}
+    # data = {"1": 5, "2": 10, "3": 2, "4": 5, "5": 14, "6": 7}
+    data = {"1": 5, "2": 10, "3": 2}
     graphMaker.DrawBarChart(data)
