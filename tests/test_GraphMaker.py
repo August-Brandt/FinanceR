@@ -36,3 +36,17 @@ def test_DrawGraphWithTitleLongerThan14(capture_stdout):
     grapher = GraphMaker()
     grapher.DrawBarChart(data)
     assert capture_stdout["stdout"] == "Food\t\t" + "#"*14 + "\nHouse\t\t" + "#"*19 + "\nTransporta...\t" + "#"*5 + "\nOther\t\t" + "#"*10 + "\n"
+
+@pytest.mark.parametrize("test_input,expected", [
+    ({"a": 5, "b": 10, "c": 2},
+        ["a\t" + "#"*14, "b\t" + "#"*29, "c\t" + "#"*5]),
+    ({"aa": 40, "bb": 30, "cc": 67},
+        ["aa\t" + "#"*14, "bb\t" + "#"*10, "cc\t" + "#"*24]),
+    ({"Food": 5500, "House": 7435, "Transport": 2300, "Other": 4203},
+        ["Food\t\t" + "#"*14, "House\t\t" + "#"*19, "Transport\t" + "#"*5, "Other\t\t" + "#"*10]),
+    ({"Food": 5500, "House": 7435, "Transportabcdef": 2300, "Other": 4203},
+        ["Food\t\t" + "#"*14, "House\t\t" + "#"*19, "Transporta...\t" + "#"*5, "Other\t\t" + "#"*10])
+])
+def test_CreateBarChart(test_input, expected):
+    grapher = GraphMaker()
+    assert grapher.CreateBarChart(test_input) == expected
