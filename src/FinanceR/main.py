@@ -1,5 +1,5 @@
 import csv
-from transaction import Transaction
+from FinanceR.transaction import Transaction
 from datetime import datetime
 from ConsoleGraphMaker.GraphMaker import GraphMaker
 
