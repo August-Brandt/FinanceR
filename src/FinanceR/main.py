@@ -1,38 +1,53 @@
 import csv
-from FinanceR.transaction import Transaction
-from datetime import date
+from transaction import Transaction
+from datetime import datetime
+from ConsoleGraphMaker.GraphMaker import GraphMaker
 
-# Returns a list of rows from the passed .csv file 
-def ReadCsv(filepath: str) -> list:
-    rows = []
-    with open(filepath, newline='') as csvfile:
-        filereader = csv.reader(csvfile, delimiter=";")
-        for row in filereader:
-            rows.append(row)
-    
-    return rows
+class TransactionHistory:
+    def __init__(self, file: str) -> None:
+        self.transactions = []
+        self.LoadTransactionsFromCSV(file)
 
+    def LoadTransactionsFromCSV(self, file: str) -> None:
+        for row in self.ReadCsv(file)[1:]:
+            self.transactions.append(self.CreateTransaction(row))
 
-def CreateTransaction(row: list) -> Transaction:
-    return Transaction(float(row[4].replace(",", ".")), row[11], row[12], date.strptime(row[0], '%d.%m.%Y'), row[2])
-
-def CreateDataSet(transactions: list) -> dict:
-    dataSet = {}
-    for transaction in transactions:
-        if transaction.type not in dataSet.keys():
-            dataSet[transaction] = 0
+    @staticmethod
+    def ReadCsv(file: str) -> list[list[str]]:
+        rows = []
+        with open(file, newline='') as csvfile:
+            filereader = csv.reader(csvfile, delimiter=";")
+            for row in filereader:
+                rows.append(row)
         
-        dataSet[transaction] = dataSet[transaction] + transaction.amount
+        return rows
     
-    return dataSet
+    @staticmethod
+    def CreateTransaction(row: list[str]) -> Transaction:
+        return Transaction(float(row[4].replace(",", ".")), row[11], row[12], datetime.strptime(row[0], '%d.%m.%Y').date(), row[2])
+
+    def PrintTransactionAmounts(self):
+        for transaction in self.transactions:
+            print(transaction.amount)
+            print(transaction.date)
+
+    def CreateDataSet(self) -> dict:
+        dataSet = {}
+        for transaction in self.transactions:
+            if transaction.type not in dataSet.keys():
+                dataSet[transaction.type] = 0
+            
+            dataSet[transaction.type] = dataSet[transaction.type] + transaction.amount
+        
+        return dataSet
 
 def main():
     filepath = input("Path to the .csv file > ")
-    transactions = []
-    for row in ReadCsv(filepath)[1:]:
-        transactions.append(CreateTransaction(row))
-    for _transaction in transactions:
-        print(_transaction.amount)
+    transactionHistory = TransactionHistory(filepath)
+    transactionHistory.PrintTransactionAmounts()
+
+    grapher = GraphMaker()
+    grapher.DrawBarChart(transactionHistory.CreateDataSet())
 
 
 if __name__ == "__main__":
