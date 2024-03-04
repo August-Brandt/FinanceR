@@ -1,2 +1,2 @@
 import pytest
-from FinanceR
+from FinanceR.TransactionHistory import TransactionHistory

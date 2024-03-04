@@ -1,5 +1,5 @@
 import pytest
-from ConsoleGraphMaker.Graphmaker import GraphMaker
+from ConsoleGraphMaker.GraphMaker import GraphMaker
 
 @pytest.mark.parametrize("test_input,expected", [
     ({"1": 5, "2": 10, "3": 2}, 
