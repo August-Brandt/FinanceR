@@ -23,7 +23,7 @@ class TransactionHistory:
     
     @staticmethod
     def CreateTransaction(row: list[str]) -> Transaction:
-        return Transaction(float(row[4].replace(",", ".")), row[11], row[12], datetime.strptime(row[0], '%d.%m.%Y').date(), row[2])
+        return Transaction(float(row[4].replace(",", ".")), row[13], row[14], datetime.strptime(row[0], '%d.%m.%Y').date(), row[2])
 
     def PrintTransactionAmounts(self):
         for transaction in self.transactions:
